@@ -1,18 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
 import Pokemoncart from "./components/pokemon_cart/pokemon_cart";
+import Menu from "./components/menu/menu";
+import PokemonInfoPage from "./components/pokemon_info_page/pokemon_info_page";
+import {Component} from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <h2>Pokemons</h2>
-        <div className="kk">
-          <Pokemoncart id={1} name="Asan" src={logo} />
-          <Pokemoncart id={2} name="Uson" src={logo} />
-          <Pokemoncart id={3} name="Andrei" src={logo} />
-        </div>
-    </div>
-  );
+class App extends Component {
+
+    constructor(props) {
+        super(props);
+        this.menuClick = this.menuClick.bind(this);
+    }
+
+    state={
+        showmenu:false
+    }
+
+    menuClick(url) {
+        this.setState({showmenu: !this.state.showmenu});
+    }
+
+
+    render() {
+        const ShowMenu = this.state.showmenu;
+        let MenuElement;
+        if (ShowMenu) {
+            MenuElement = <Menu/>;
+        }
+        return (
+            <div className="App">
+                <a id="toggle" onClick={this.menuClick}><span></span></a>
+                {MenuElement}
+                    <Pokemoncart id={1} name="Asan" src={logo}/>
+            </div>
+        );
+    }
+
 }
 
 export default App;

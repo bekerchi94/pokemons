@@ -1,3 +1,8 @@
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .pokemonCart{
     background-color: #ffffff;
     color: #282c34;
@@ -12,4 +17,17 @@
 
 .pokemonName{
     color:#282c34
+}
+
+.navbutton{
+    background: #282c34;
+    color: white;
+    width: 30%;
+    height: 40px;
+    font-size: larger;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-top: 20px;
 }

@@ -1,0 +1,19 @@
+.menu_ul{
+    display: block;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: scroll;
+}
+.menu_li{
+    display: block;
+    width: 100%;
+    border-color: #282c34;
+    color: #282c34;
+    border: 0px;
+    border-bottom: 1px solid #282c34;
+    cursor: pointer;
+}
+
+.menu_li:last-child{
+    border: 0px;
+}
