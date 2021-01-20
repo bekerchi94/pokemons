@@ -1,23 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import Pokemoncart from "./components/pokemon_cart/pokemon_cart";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Pokemons</h2>
+        <div className="kk">
+          <Pokemoncart id={1} name="Asan" src={logo} />
+          <Pokemoncart id={2} name="Uson" src={logo} />
+          <Pokemoncart id={3} name="Andrei" src={logo} />
+        </div>
     </div>
   );
 }
