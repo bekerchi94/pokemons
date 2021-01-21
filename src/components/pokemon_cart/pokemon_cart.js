@@ -1,86 +1,100 @@
 import React, { Component } from 'react';
 import './pokemon_cart.css';
-import PokemonInfoPage from "./../pokemon_info_page/pokemon_info_page";
 import axios from "axios";
+
 class Pokemoncart extends Component {
 
     constructor(props) {
         super(props);
-        // Эта привязка обязательна для работы `this` в колбэке.
         this.cartClick = this.cartClick.bind(this);
     }
 
     state={
-        names:[],
-        images:[],
-        url:[],
+        params:[],
         next:'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10',
-        prev:'',
-        showPokemonUrl:''
+        prev:''
     }
 
-    cartClick(url) {
-        this.setState({showPokemonUrl: url});
+    cartClick =(url)=> {
+        this.props.setPokemonInfoUrl(url);
     }
 
-    GetPokemonImageUrl(url){
+    GetPokemonImageUrl = (urls) => {
+       Promise.all([axios.get(urls[0].url),
+                   axios.get(urls[1].url),
+                   axios.get(urls[2].url),
+                   axios.get(urls[3].url),
+                   axios.get(urls[4].url),
+                   axios.get(urls[5].url),
+                   axios.get(urls[6].url),
+                   axios.get(urls[7].url),
+                   axios.get(urls[8].url),
+                   axios.get(urls[9].url)
+       ]).then(pokemoninfo => {
+
+           const params = this.state.params;
+           let newparams =[];
+
+           const count =params.length;
+           for(let i=0; i<count; i++){
+            let item = {
+                name : params[i].name,
+                url : params[i].url,
+                image : pokemoninfo[i].data.sprites.other['official-artwork'].front_default
+            }
+            newparams.push(item);
+           }
+
+            this.setState({params : newparams});
+
+        });
+
+    }
+
+    GetPokemonsNameList = (url) => {
         axios.get(url)
             .then(res => {
-                const image= res.data.sprites.other['official-artwork'].front_default;
-                return image;
-            })
-    }
-
-    GetPokemonsNameList(url){
-        axios.get(url)
-            .then(res => {
-                let names= []; //res.data.results.name;
                 const next = res.data.next;
                 const prev = res.data.previous;
-                const data = res.data.results;
-                let url=[];
-                let images=[];
-                data.forEach(function(element){
-                    names.push(element.name);
-                    url.push(element.url);
-                    let imageurl=this.GetPokemonImageUrl(element.url);
-                    images.push(imageurl);
-                    console.log(imageurl);
-                },this);
-
-                this.setState({ names,next,prev});
+                const params = res.data.results;
+                this.GetPokemonImageUrl(params);
+                this.setState({ params,next,prev});
             })
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.GetPokemonsNameList(this.state.next);
     }
 
     render() {
-        if((this.state.showPokemonUrl!==null)&&(this.state.showPokemonUrl!==''))
-        {
-            return (
-                <PokemonInfoPage url={this.state.showPokemonUrl} />
-            );
+        const prev = this.state.prev;
+        let buttonPrev;
+        if (prev) {
+            buttonPrev = <button className="navbutton" onClick={() => this.GetPokemonsNameList(prev)} >Previous page</button>;
         }
-        else {
+        const next = this.state.next;
+        let buttonNext;
+        if (next) {
+            buttonNext = <button className="navbutton" onClick={() => this.GetPokemonsNameList(next)} >Next page</button>;
+        }
+
             return (
-                <div>
+                <div className="container">
                     <h2>Pokemons</h2>
             <div className="row">
-                <div className="pokemonCart" onClick={() => this.cartClick(this.props.id)}>
-                    <img className="avatar" src={this.props.src} alt={this.props.name}/>
-                    <h3 className="pokemonName">
-                        {this.props.name}
-                    </h3>
-                </div>
+                {this.state.params.map(key =><div className="pokemonCart" onClick={() => this.cartClick(key.url)}>
+                        <img className="avatar" src={key.image} alt={key.name}/>
+                        <h3 className="pokemonName">
+                            {key.name}
+                        </h3>
+                    </div>
+                )}
             </div>
-            <button className="navbutton">Previous page</button>
-            <button className="navbutton">Next page</button>
+                    {buttonPrev}
+                    {buttonNext}
             </div>
             );
         }
-    }
 }
 
 export     default     Pokemoncart;

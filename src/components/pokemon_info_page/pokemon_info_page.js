@@ -17,8 +17,8 @@ class PokemonInfoPage extends Component {
         moves:[],
     }
 
-    componentDidMount() {
-        axios.get(this.props.url)
+    GetPokemonInfo = (url) => {
+        axios.get(url)
             .then(res => {
                 const name= res.data.name;
                 const img = res.data.sprites.other['official-artwork'].front_default;
@@ -28,11 +28,22 @@ class PokemonInfoPage extends Component {
                 const abilities = res.data.abilities;
                 const moves =res.data.moves;
                 this.setState({ name,img,height,weight,types,abilities,moves });
-                //this.setState({ params });
                 console.log(res.data);
             })
     }
+
+    componentDidMount = () => {
+       this.GetPokemonInfo(this.props.url);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.url!==this.props.url){
+            this.GetPokemonInfo(nextProps.url);
+        }
+    }
+
     render() {
+     //   alert(this.props.url);
         return (
             <div className="pokemonInfoCart">
                 <img className="avatar" src={this.state.img} alt={ this.state.name}/>

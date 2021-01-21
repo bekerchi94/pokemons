@@ -1,17 +1,20 @@
 .menu_ul{
     display: block;
-    width: 90%;
-    max-height: 90vh;
+    width: 60%;
+    max-height: 450px;
     overflow-y: scroll;
 }
 .menu_li{
     display: block;
     width: 100%;
     border-color: #282c34;
-    color: #282c34;
+    color: midnightblue;
+    background: antiquewhite;
     border: 0px;
+    font-size: larger;
     border-bottom: 1px solid #282c34;
     cursor: pointer;
+    text-align: center;
 }
 
 .menu_li:last-child{
