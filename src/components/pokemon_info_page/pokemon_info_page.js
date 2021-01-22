@@ -6,7 +6,9 @@ class PokemonInfoPage extends Component {
     constructor(props) {
         super(props);
     }
-
+    /*
+    * состоянии имя, ссылка на изображение, рост, вес, тип, характеристики, движении покемона
+    * */
     state = {
         name:'',
         img:'',
@@ -17,6 +19,9 @@ class PokemonInfoPage extends Component {
         moves:[],
     }
 
+    /*
+    * метод для получение информации покемона по ссылке, по ответу сервера обновляет состояние данных покемона
+    * */
     GetPokemonInfo = (url) => {
         axios.get(url)
             .then(res => {
@@ -28,22 +33,29 @@ class PokemonInfoPage extends Component {
                 const abilities = res.data.abilities;
                 const moves =res.data.moves;
                 this.setState({ name,img,height,weight,types,abilities,moves });
-                console.log(res.data);
             })
     }
 
+    /*
+    * вызов метода обновление данных покемона по ссылке при монтировании компонента
+    * */
     componentDidMount = () => {
        this.GetPokemonInfo(this.props.url);
     }
 
+    /*
+    * вызов метода обновление данных покемона по ссылке при получении ссылки на покемона родителем компонента
+    * */
     componentWillReceiveProps(nextProps) {
         if(nextProps.url!==this.props.url){
             this.GetPokemonInfo(nextProps.url);
         }
     }
 
+    /*
+    * рендеринг по состоянии данных покемона
+    * */
     render() {
-     //   alert(this.props.url);
         return (
             <div className="pokemonInfoCart">
                 <img className="avatar" src={this.state.img} alt={ this.state.name}/>
