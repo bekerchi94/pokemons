@@ -53,9 +53,10 @@ class Menu extends Component {
     * рендеринг списка покемонов по состоянием данных покемонов
     * */
     render() {
+        let PokemonsList = this.state.pokemonsdata;
                 return (
                     <ul className="menu_ul">
-                    {this.state.names.map(key => <li className="menu_li" key={key.name}
+                    {PokemonsList.map(key => <li className="menu_li" key={key.name}
                                                      onClick={() => this.menuElementClick(key.url)}>{key.name}</li>)}
                 </ul>
                 );
